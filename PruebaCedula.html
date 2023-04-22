@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" method="post">
+        <input id="cedula" type="number" placeholder="Cédula">
+        <button type="button" id="btnEnviar" onclick="validar()">Enviar</button>
+    </form>
+    <script>
+        function validar()
+        {
+            let cedula = document.getElementById('cedula').value ; //11832172 
+            const corsAnywhere = 'https://cors-anywhere.herokuapp.com/';
+            const yourUrl = 'https://cedulaprofesional.sep.gob.mx/cedula/buscaCedulaJson.action?json={"maxResult":"1000","nombre":"","paterno":"","materno":"","idCedula":"'+cedula+'"}';
+
+            fetch(corsAnywhere + yourUrl, {
+                method: 'GET',
+                headers: new Headers({
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => comparar(data.items[0].titulo))
+                .catch((err) => console.log("error " + err));
+            }
+        //cedula = 11832172
+        //página https://www.cedula.mx/
+
+        function comparar(titulo)
+        {
+            if(titulo!="LICENCIATURA COMO PSICÓLOGO")
+            {
+                alert("el título del registro es "+titulo+" y no corresponde al de un psicólogo")
+            }
+        }
+    
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+<script>
+    function validarCedula()
+    {
+        let cedula = document.getElementById('cedula').value ; //11832172
+        const yourUrl = 'https://cedulaprofesional.sep.gob.mx/cedula/buscaCedulaJson.action?json={"maxResult":"1000","nombre":"","paterno":"","materno":"","idCedula":"'+cedula+'"}';
+
+        fetch(yourUrl)
+            .then((response) => response.json())
+            .then((data) => compararCedula(data.items[0].titulo))
+            .catch((err) => console.log("error " + err));
+    }
+    function compararCedula(titulo)
+    {
+        if(titulo !== "LICENCIATURA COMO PSICÓLOGO")
+        {
+            e.preventDefault(); // Prevenir que la página se recargue
+            err.innerHTML = "el título del registro es "+titulo+" y no corresponde al de un psicólogo"; // Notificar al usuario
+            setTimeout(() => 
+            {
+                err.innerHTML = " ";
+            }, 1200); // Esperar 1.2 segundos y quitar el mensaje
+        }
+    }
+
+    formMain.addEventListener("submit", (e) => 
+    { // Escuchar cuando se envíe el formulario
+        if (password.value !== password2.value) 
+            { // Comprobar si los valores de los inputs son iguales, si no lo son continuar
+            e.preventDefault(); // Prevenir que la página se recargue
+            err.innerHTML = "Las contraseñas no coinciden"; // Notificar al usuario
+            setTimeout(() => 
+            {
+                err.innerHTML = " ";
+            }, 1200); // Esperar 1.2 segundos y quitar el mensaje
+        }
+
+        validar()
+    });
+    
+</script>
+
+
+
